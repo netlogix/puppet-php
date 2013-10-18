@@ -49,6 +49,7 @@ class php::fpm(
   $emergency_restart_threshold = $php::fpm::params::emergency_restart_threshold,
   $emergency_restart_interval  = $php::fpm::params::emergency_restart_interval,
   $process_control_timeout     = $php::fpm::params::process_control_timeout,
+  $process_max                 = $php::fpm::params::process_max,
   $log_owner                   = $php::fpm::params::log_owner,
   $log_group                   = $php::fpm::params::log_group,
   $log_dir_mode                = $php::fpm::params::log_dir_mode,
