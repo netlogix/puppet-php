@@ -84,4 +84,10 @@ define php::extension(
     }
   }
 
+  if defined(Service['php5-fpm']) {
+    Package[$package] {
+      notify => Service['php5-fpm'],
+    }
+  }
+
 }

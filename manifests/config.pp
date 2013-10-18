@@ -47,4 +47,10 @@ define php::config(
     require   => Class['php::augeas']
   }
 
+  if defined(Service['php5-fpm']) {
+    Augeas["php-${name}-config"] {
+      notify => Service['php5-fpm'],
+    }
+  }
+
 }
