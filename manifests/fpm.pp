@@ -53,6 +53,7 @@ class php::fpm(
   $log_owner                   = $php::fpm::params::log_owner,
   $log_group                   = $php::fpm::params::log_group,
   $log_dir_mode                = $php::fpm::params::log_dir_mode,
+  $config_template             = $php::fpm::params::config_template,
 ) inherits php::fpm::params {
 
   # Hack-ish to default to user for group too
@@ -89,7 +90,7 @@ class php::fpm(
 
     file { '/etc/php5/fpm/php-fpm.conf':
       notify  => Service['php5-fpm'],
-      content => template('php/fpm/php-fpm.conf.erb'),
+      content => template($config_template),
       owner   => root,
       group   => root,
       mode    => '0644',

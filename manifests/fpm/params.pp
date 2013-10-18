@@ -71,5 +71,6 @@ class php::fpm::params {
   $log_owner                   = 'root'
   $log_group                   = false
   $log_dir_mode                = '0770'
+  $config_template             = 'php/fpm/php-fpm.conf.erb'
 
 }

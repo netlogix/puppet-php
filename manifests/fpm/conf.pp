@@ -50,7 +50,8 @@ define php::fpm::conf (
   $php_admin_value = {},
   $php_admin_flag = {},
   $php_directives = [],
-  $error_log = true
+  $error_log = true,
+  $template = 'php/fpm/pool.conf.erb',
 ) {
 
   $pool = $title
@@ -68,7 +69,7 @@ define php::fpm::conf (
       ensure  => file,
       notify  => Service['php5-fpm'],
       require => Package['php5-fpm'],
-      content => template('php/fpm/pool.conf.erb'),
+      content => template($template),
       owner   => root,
       group   => root,
       mode    => '0644'
