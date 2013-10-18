@@ -40,29 +40,60 @@
 # Copyright 2012-2013 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::fpm(
-  $ensure   = $php::fpm::params::ensure,
-  $package  = $php::fpm::params::package,
-  $provider = $php::fpm::params::provider,
-  $inifile  = $php::fpm::params::inifile,
-  $settings = $php::fpm::params::settings
+  $ensure                      = $php::fpm::params::ensure,
+  $package                     = $php::fpm::params::package,
+  $provider                    = $php::fpm::params::provider,
+  $inifile                     = $php::fpm::params::inifile,
+  $settings                    = $php::fpm::params::settings,
+  $log_level                   = $php::fpm::params::log_level,
+  $emergency_restart_threshold = $php::fpm::params::emergency_restart_threshold,
+  $emergency_restart_interval  = $php::fpm::params::emergency_restart_interval,
+  $process_control_timeout     = $php::fpm::params::process_control_timeout,
+  $log_owner                   = $php::fpm::params::log_owner,
+  $log_group                   = $php::fpm::params::log_group,
+  $log_dir_mode                = $php::fpm::params::log_dir_mode,
 ) inherits php::fpm::params {
 
-  package { $package:
-    ensure   => $ensure,
-    provider => $provider;
+  # Hack-ish to default to user for group too
+  $log_group_final = $log_group ? {
+    false   => $log_owner,
+    default => $log_group,
   }
 
-  php::config { 'php-fpm':
-    inifile  => $inifile,
-    settings => $settings
-  }
+  if ( $ensure == 'absent' ) {
 
-  service { 'php5-fpm':
-    ensure    => running,
-    enable    => true,
-    restart   => 'service php5-fpm reload',
-    hasstatus => true,
-    require   => Package[$package]
+    package { 'php5-fpm':
+      ensure => absent
+    }
+
+  } else {
+
+    package { $package:
+      ensure   => $ensure,
+      provider => $provider;
+    }
+
+    php::config { 'php-fpm':
+      inifile  => $inifile,
+      settings => $settings
+    }
+
+    service { 'php5-fpm':
+      ensure    => running,
+      enable    => true,
+      restart   => 'service php5-fpm reload',
+      hasstatus => true,
+      require   => Package[$package]
+    }
+
+    file { '/etc/php5/fpm/php-fpm.conf':
+      notify  => Service['php5-fpm'],
+      content => template('php/fpm/php-fpm.conf.erb'),
+      owner   => root,
+      group   => root,
+      mode    => '0644',
+    }
+
   }
 
 }
