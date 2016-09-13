@@ -26,7 +26,22 @@
 # Copyright 2012-2015 Christian "Jippi" Winther, unless otherwise noted.
 #
 class php::params {
-  $major_version = hiera("php::params::php_version", "5")
+
+  $default_version = $::osfamily ? {
+    'Debian' => $::operatingsystem ? {
+      'Ubuntu' => $::operatingsystemmajrelease ? {
+        '12.04' => '5',
+        '14.04' => '5',
+        '15.10' => '5',
+        '16.04' => '7.0',
+        default => '5',
+      },
+      default => '5',
+    },
+    default => '5',
+  }
+
+  $major_version = hiera("php::params::php_version", $default_version)
   $ensure = 'installed'
   if (versioncmp($major_version, '7') >= 0) {
     $config_root = "/etc/php/${major_version}"
