@@ -42,7 +42,7 @@ class php::fpm::params inherits php::params {
 
   $ensure             = $::php::params::ensure
   if (versioncmp($php::params::major_version, "7") >= 0) {
-    $package          = 'php-fpm'
+    $package          = "php${php::params::major_version}-fpm"
     $service_name     = 'php7.0-fpm'
     $pid              = "/run/php/php${php::params::major_version}-fpm.pid"
     $error_log        = "/var/log/php${php::params::major_version}-fpm.log"
