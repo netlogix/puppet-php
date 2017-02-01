@@ -60,12 +60,12 @@ define php::extension::disenable (
   }
 # regex is idempotent. no changes will be made if there is a space after semicolon already
   exec { "priority_${sapi}_${extension}":
-    command => "sed -ie 's/^;priority/; priority/g' /etc/php5/mods-available/${extension}.ini",
-    onlyif  => "test -e /etc/php5/mods-available/${extension}.ini",
+    command => "sed -ie 's/^;priority/; priority/g' ${php::params::config_root_ini}/${extension}.ini",
+    onlyif  => "test -e ${php::params::config_root_ini}/${extension}.ini",
   }
 # extension class should be responsible for service notification
   exec { "${command} -s ${sapi} ${extension}":
-    unless  => "${unless} /etc/php5/${sapi}/conf.d/${priority}-${extension}.ini",
+    unless  => "${unless} ${php::params::config_root}/${sapi}/conf.d/${priority}-${extension}.ini",
     require => Exec["priority_${sapi}_${extension}"]
   }
 

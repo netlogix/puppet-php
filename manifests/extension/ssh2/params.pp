@@ -47,7 +47,7 @@ class php::extension::ssh2::params {
     'set ".anon/extension" "ssh2.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "7") >= 0) {
+  if (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package  = 'php-ssh2'
   } else {
     $package  = 'php5-ssh2'

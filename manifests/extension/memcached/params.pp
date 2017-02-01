@@ -48,7 +48,7 @@ class php::extension::memcached::params {
     'set ".anon/extension" "memcached.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "7") >= 0) {
+  if (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package  = 'php-memcached'
   } else {
     $package  = 'php5-memcached'

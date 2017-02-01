@@ -43,7 +43,7 @@ class php::params {
 
   $major_version = hiera("php::params::php_version", $default_version)
   $ensure = 'installed'
-  if (versioncmp($major_version, '7') >= 0) {
+  if (versioncmp($major_version, '5.6') >= 0) {
     $config_root = "/etc/php/${major_version}"
   } else {
     $config_root = "/etc/php${major_version}"
