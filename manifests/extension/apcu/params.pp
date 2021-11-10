@@ -47,7 +47,9 @@ class php::extension::apcu::params {
     'set ".anon/extension" "apcu.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "5.6") >= 0) {
+  if (versioncmp($php::params::major_version, "8.0") >= 0) {
+    $package  = "php${php::params::major_version}-apcu"
+  } elsif (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package  = 'php-apcu'
   } else {
     $package  = 'php5-apcu'

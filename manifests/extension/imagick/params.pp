@@ -47,7 +47,9 @@ class php::extension::imagick::params {
     'set ".anon/extension" "imagick.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "5.6") >= 0) {
+  if (versioncmp($php::params::major_version, "8.0") >= 0) {
+    $package  = "php${php::params::major_version}-imagick"
+  } elsif (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package  = 'php-imagick'
   } else {
     $package  = 'php5-imagick'

@@ -47,7 +47,9 @@ class php::extension::redis::params {
     'set ".anon/extension" "redis.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "5.6") >= 0) {
+  if (versioncmp($php::params::major_version, "8.0") >= 0) {
+    $package  = "php${php::params::major_version}-redis"
+  } elsif (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package  = 'php-redis'
   } else {
     $package  = 'php5-redis'

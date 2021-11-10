@@ -47,7 +47,9 @@ class php::extension::xdebug::params {
     'set ".anon/zend_extension" "xdebug.so"'
   ]
 
-  if (versioncmp($php::params::major_version, "5.6") >= 0) {
+  if (versioncmp($php::params::major_version, "8.0") >= 0) {
+    $package     = "php${php::params::major_version}-xdebug"
+  } elsif (versioncmp($php::params::major_version, "5.6") >= 0) {
     $package     = 'php-xdebug'
   } else {
     $package     = 'php5-xdebug'
