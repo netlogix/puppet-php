@@ -49,7 +49,7 @@ class php::extension::memcache::params {
   ]
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
     # Leave alone as there's no php7.0-imagick yet...so we'll have to phpize
-    $package  = 'php-memcache'
+    $package  = "${php::params::non_versioned_extension_prefix}-memcache"
   } else {
     $package  = 'php5-memcache'
   }

@@ -48,7 +48,7 @@ class php::extension::apcu::params {
   ]
 
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
-    $package  = 'php-apcu'
+    $package  = "${php::params::non_versioned_extension_prefix}-apcu"
   } else {
     $package  = 'php5-apcu'
   }

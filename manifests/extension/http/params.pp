@@ -48,7 +48,7 @@ class php::extension::http::params {
   ]
 
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
-    $package  = 'php-http'
+    $package  = "${php::params::non_versioned_extension_prefix}-http"
   } else {
     $package  = 'php5-http'
   }

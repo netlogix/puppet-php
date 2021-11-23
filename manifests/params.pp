@@ -57,5 +57,11 @@ class php::params {
     $config_root_ini = "${::php::params::config_root}/conf.d"
   }
 
+  if $major_version == $default_version {
+    $non_versioned_extension_prefix = 'php'
+  } else {
+    $non_versioned_extension_prefix = "php${major_version}"
+  }
+
   $augeas_contrib_dir = '/usr/share/augeas/lenses/contrib'
 }

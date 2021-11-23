@@ -48,7 +48,7 @@ class php::extension::xdebug::params {
   ]
 
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
-    $package     = 'php-xdebug'
+    $package     = "${php::params::non_versioned_extension_prefix}-xdebug"
   } else {
     $package     = 'php5-xdebug'
   }

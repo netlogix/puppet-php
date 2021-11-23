@@ -49,7 +49,7 @@ class php::extension::memcached::params {
   ]
 
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
-    $package  = 'php-memcached'
+    $package  = "${php::params::non_versioned_extension_prefix}-memcached"
   } else {
     $package  = 'php5-memcached'
   }
