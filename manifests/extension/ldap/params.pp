@@ -41,7 +41,7 @@
 class php::extension::ldap::params {
 
   $ensure   = $php::params::ensure
-  $package  = "php${php::params::major_version}-ldap"
+  $package  = php::normalize_php_ext('ldap')
   $provider = undef
   $inifile  = "${php::params::config_root_ini}/ldap.ini"
   $settings = [

@@ -41,7 +41,7 @@
 class php::extension::yaml::params {
 
   $ensure   = $php::params::ensure
-  $package  = 'yaml'
+  $package  = php::normalize_php_ext('yaml')
   $provider = 'pecl'
   $inifile  = "${php::params::config_root_ini}/yaml.ini"
   $settings = [
