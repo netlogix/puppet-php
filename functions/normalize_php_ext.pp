@@ -1,5 +1,5 @@
 # this function normalizes php extension package names depending on several factors
-function php::normalize_php_ext(String $php_extension_name, Optional[String] $php_version = undef, Boolean $custom_source = false) >> String {
+function php::normalize_php_ext(String $php_extension_name, Array $sources = pick(lookup('custom_php_sources'), []), Optional[String] $php_version = undef, Boolean $custom_source = false) >> String {
 
 	# These extensions have no phpX.Y-name package on plain ubuntu systems.
 	# They ALWAYS depend on the php-version shipped with ubuntu.
@@ -48,36 +48,27 @@ function php::normalize_php_ext(String $php_extension_name, Optional[String] $ph
 	]
 
 	$real_php_version = $php_version ? {
-		undef => pick(lookup('profiles::web::php_version'), $facts['php_version'][0,3]),
+		undef => pick(lookup('php::params::php_version'), $facts['php_version'][0,3]),
 		default => $php_version
 	}
 
-	# for this to work, this function MUST be placed somewhere AFTER the respective resource declaration
-	if (defined(Apt::Ppa['ppa:ondrej/php5-oldstable']) or
-		  defined(Apt::Ppa['ppa:ondrej/php5']) or
-		  defined(Apt::Ppa['ppa:ondrej/php5-5.6']) or
-	    defined(Apt::Ppa['ppa:ondrej/php'])) or
-		  ####################################
-		  defined(Apt::Source['netlogix-php']) or
-		  defined(Apt::Source['netlogix-php70']) or
-			defined(Apt::Source['php5-oldstable']) {
-		$custom_source_defined = true
-	} else {
-		$custom_source_defined = false
+	$sources_filtered = $sources.filter |$source| {
+		defined(Apt::Source[$source]) or defined(Apt::Ppa[$source])
 	}
+	$custom_source_defined = length($sources_filtered) > 0
 
-	$real_custom_source = $custom_source ? {
+	$has_custom_source = $custom_source ? {
 		true => true,
 		default => $custom_source_defined
 	}
 
-	if ($real_custom_source) {
-		$real_package_name = "php${real_php_version}-${php_extension_name}"
+	if (!$has_custom_source and member($plain_package_names, "php-${php_extension_name}")) {
+		$real_package_name = "php-${php_extension_name}"
 	} else {
-		if (member($plain_package_names, "php-${php_extension_name}")) {
-			$real_package_name = "php-${php_extension_name}"
-		} else {
-			$real_package_name = "php${real_php_version}-${php_extension_name}"
+		$real_package_name = "php${real_php_version}-${php_extension_name}"
+		# resources work in puppet > 4 inside functions
+		package { "php-${php_extension_name}":
+			ensure => 'absent',
 		}
 	}
 
