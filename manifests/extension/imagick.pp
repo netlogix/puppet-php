@@ -52,6 +52,15 @@ class php::extension::imagick(
     provider => $provider
   }
 
+  # Remove versionless package, if versioned package is used
+  # Either the versionless one prevides the versioned package
+  # or it is unwanted because it depends on a different php version
+  if ($package =~ /php\d\.\d-imagick/) {
+    package {'php-imagick':
+      ensure => 'absent'
+    }
+  }
+
   php::config { 'php-extension-imagick':
     file   => $inifile,
     config => $settings

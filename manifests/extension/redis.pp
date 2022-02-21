@@ -46,6 +46,15 @@ class php::extension::redis(
     provider => $provider
   }
 
+  # Remove versionless package, if versioned package is used
+  # Either the versionless one prevides the versioned package
+  # or it is unwanted because it depends on a different php version
+  if ($package =~ /php\d\.\d-redis/) {
+    package {'php-redis':
+      ensure => 'absent'
+    }
+  }
+
   php::config { 'php-extension-redis':
     file   => $inifile,
     config => $settings

@@ -66,10 +66,6 @@ function php::normalize_php_ext(String $php_extension_name, Array $sources = pic
 		$real_package_name = "php-${php_extension_name}"
 	} else {
 		$real_package_name = "php${real_php_version}-${php_extension_name}"
-		# resources work in puppet > 4 inside functions
-		package { "php-${php_extension_name}":
-			ensure => 'absent',
-		}
 	}
 
 	$real_package_name
