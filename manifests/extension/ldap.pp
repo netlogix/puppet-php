@@ -52,15 +52,6 @@ class php::extension::ldap(
     provider => $provider
   }
 
-  # Remove versionless package, if versioned package is used
-  # Either the versionless one provides the versioned package
-  # or it is unwanted because it depends on a different php version
-  if ($package =~ /php\d\.\d-ldap/) {
-    package {'php-ldap':
-      ensure => 'absent'
-    }
-  }
-
   php::config { 'php-extension-ldap':
     file   => $inifile,
     config => $settings
