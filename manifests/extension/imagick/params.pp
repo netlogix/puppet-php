@@ -48,7 +48,7 @@ class php::extension::imagick::params {
   ]
 
   if (versioncmp($php::params::major_version, "5.6") >= 0) {
-    $package  = "${php::params::non_versioned_extension_prefix}-imagick"
+    $package  = php::normalize_php_ext('imagick')
   } else {
     $package  = 'php5-imagick'
   }

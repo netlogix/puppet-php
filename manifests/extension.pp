@@ -109,6 +109,14 @@ define php::extension(
       ensure   => $ensure,
       provider => $provider;
     }
-  }
 
+    # Remove versionless package, if versioned package is used
+    # Either the versionless one provides the versioned package
+    # or it is unwanted because it depends on a different php version
+    if (match($package, "php\d\.\d-${name}") != undef) {
+      package {"php-${name}":
+        ensure => 'absent'
+      }
+    }
+  }
 }
