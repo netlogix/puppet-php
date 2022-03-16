@@ -47,7 +47,7 @@ function php::extension_has_versioned_package(String $php_extension_name) >> Boo
 		"php-zmq",
 	]
 
-	if (!$has_custom_source and member($plain_package_names, "php-${php_extension_name}")) {
+	if (!php::custom_sources_exist() and member($plain_package_names, "php-${php_extension_name}")) {
 		false
 	} else {
 		true
