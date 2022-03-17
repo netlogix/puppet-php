@@ -113,7 +113,8 @@ define php::extension(
     # Remove versionless package, if versioned package is used
     # Either the versionless one provides the versioned package
     # or it is unwanted because it depends on a different php version
-    if (match($package, "php\d\.\d-${name}") != undef) {
+    # only remove versionless package, if there exists a versioned package to not lose wanted extensions
+    if (match($package, "php\d\.\d-${name}") != undef and php::extension_has_versioned_package($name)) {
       package {"php-${name}":
         ensure => 'absent'
       }
